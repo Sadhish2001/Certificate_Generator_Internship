@@ -1,5 +1,6 @@
 /* Colorful Bubbles Premium Design */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=UnifrakturMaguntia&display=swap');
 
 :root {
   --glass-bg: rgba(255, 255, 255, 0.05);
@@ -14,7 +15,6 @@ body {
   padding: 0;
   font-family: 'Poppins', sans-serif;
   background: #0f0c29;
-  /* Deep dark background */
   background: linear-gradient(to bottom, #24243e, #302b63, #0f0c29);
   min-height: 100vh;
   display: flex;
@@ -51,7 +51,6 @@ body {
   animation: floatUp linear infinite;
 }
 
-/* Specular Highlight on Bubble */
 .bubble::after {
   content: '';
   position: absolute;
@@ -89,7 +88,6 @@ body {
 .form-container {
   position: relative;
   z-index: 10;
-  /* Above bubbles */
   width: 90%;
   max-width: 900px;
   background: rgba(255, 255, 255, 0.05);
@@ -159,7 +157,6 @@ body {
   letter-spacing: 1px;
 }
 
-/* Underline Input Style */
 .form-input,
 .form-select {
   width: 100%;
@@ -191,7 +188,7 @@ body {
   box-shadow: 0 4px 4px -4px rgba(255, 255, 255, 0.5);
 }
 
-/* File Input Styling */
+/* File Input */
 .file-input-wrapper {
   margin-top: 5px;
 }
@@ -273,7 +270,290 @@ body {
   color: #ff3232;
 }
 
-/* Responsive */
+/* ================================================================
+   BUTTON ROW (Preview + Generate side by side)
+   ================================================================ */
+.btn-row {
+  grid-column: span 2;
+  display: flex;
+  gap: 16px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+/* Purple preview button */
+.preview-btn {
+  flex: 1;
+  padding: 18px;
+  background: rgba(138, 99, 255, 0.15);
+  color: #c4a6ff;
+  font-size: 16px;
+  font-weight: 600;
+  border: 1px solid rgba(138, 99, 255, 0.45);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 20px rgba(138, 99, 255, 0.15);
+  backdrop-filter: blur(5px);
+  font-family: 'Poppins', sans-serif;
+}
+
+.preview-btn:hover {
+  background: rgba(138, 99, 255, 0.3);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 30px rgba(138, 99, 255, 0.4);
+  border-color: #c4a6ff;
+  color: #fff;
+}
+
+/* Submit inside btn-row: reset grid-column */
+.submit-btn-inline {
+  grid-column: unset;
+  margin-top: 0;
+  flex: 1;
+}
+
+/* ================================================================
+   PREVIEW MODAL BACKDROP
+   ================================================================ */
+.preview-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(8, 6, 24, 0.88);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 36px 24px 60px;
+  overflow-y: auto;
+}
+
+.preview-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 980px;
+  animation: slideUp 0.35s ease-out;
+}
+
+/* ✕ Close button */
+.preview-close-btn {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 17px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  transition: background 0.2s, border-color 0.2s;
+  backdrop-filter: blur(6px);
+  font-family: 'Poppins', sans-serif;
+}
+
+.preview-close-btn:hover {
+  background: rgba(255, 70, 70, 0.4);
+  border-color: #ff5050;
+}
+
+.preview-hint {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ================================================================
+   CERTIFICATE PAGE  (A4 Landscape — 842 × 595 aspect ratio)
+   ================================================================ */
+.cert-page {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 842 / 595;
+  background: #ffffff;
+  border-radius: 3px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.65);
+  overflow: hidden;
+  font-family: 'Times New Roman', Times, serif;
+  color: #000;
+}
+
+/* Watermark — centred logo at 13% opacity */
+.cert-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 63%;
+  opacity: 0.13;
+  pointer-events: none;
+  z-index: 0;
+  object-fit: contain;
+}
+
+/* Double border  */
+.cert-border-outer {
+  position: absolute;
+  inset: 4.75%;
+  border: 2.5px solid #111;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.cert-border-inner {
+  position: absolute;
+  inset: 5px;
+  border: 1px solid #111;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 1.8% 2%;
+  overflow: hidden;
+}
+
+/* Header row: logo on left, title on right */
+.cert-header-row {
+  display: flex;
+  align-items: center;
+  gap: 2%;
+  width: 100%;
+  margin-bottom: 0.6%;
+  z-index: 2;
+}
+
+.cert-logo {
+  width: 16%;
+  max-height: 13%;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.cert-logo-placeholder {
+  width: 16%;
+  flex-shrink: 0;
+}
+
+/* Title — Old English blackletter, green */
+.cert-title {
+  font-family: 'UnifrakturMaguntia', 'Times New Roman', cursive;
+  font-size: 2.9vw;
+  color: #76a644;
+  margin: 0;
+  font-weight: normal;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  flex: 1;
+  text-align: center;
+}
+
+/* Body */
+.cert-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.cert-line {
+  font-size: 1.52vw;
+  text-align: center;
+  margin: 0.15% 0;
+  line-height: 1.4;
+}
+
+.cert-small {
+  font-size: 1.15vw;
+  margin: 0.1% 0;
+}
+
+.cert-at {
+  font-size: 1.65vw;
+  margin: 0.35% 0 0.1%;
+}
+
+/* Institution name — Cinzel Bold */
+.cert-institution {
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-size: 1.42vw;
+  font-weight: 700;
+  text-align: center;
+  margin: 0.25% 0;
+  letter-spacing: 0.06em;
+  color: #111;
+}
+
+/* Company name — Cinzel Bold, green */
+.cert-company {
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-size: 2.1vw;
+  font-weight: 700;
+  color: #76a644;
+  text-align: center;
+  margin: 0.15% 0;
+  letter-spacing: 0.05em;
+}
+
+.cert-wishes {
+  font-size: 1.7vw;
+  text-align: center;
+  margin: 0.5% 0 0;
+}
+
+/* Footer */
+.cert-footer {
+  position: absolute;
+  bottom: 3%;
+  left: 3%;
+  right: 3%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  z-index: 2;
+}
+
+.cert-footer-left {
+  font-size: 1.2vw;
+  font-weight: 700;
+}
+
+.cert-footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.cert-signature {
+  height: 9%;
+  max-width: 14%;
+  object-fit: contain;
+}
+
+.cert-auth {
+  font-size: 1.18vw;
+  font-weight: 700;
+}
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
 @media (max-width: 768px) {
   .form-grid {
     grid-template-columns: 1fr;
@@ -291,5 +571,46 @@ body {
   .form-container {
     padding: 30px;
     width: 85%;
+  }
+
+  .btn-row {
+    grid-column: span 1;
+    flex-direction: column;
+  }
+
+  .cert-title {
+    font-size: 5vw;
+  }
+
+  .cert-line {
+    font-size: 2.6vw;
+  }
+
+  .cert-institution {
+    font-size: 2.5vw;
+  }
+
+  .cert-company {
+    font-size: 3.5vw;
+  }
+
+  .cert-wishes {
+    font-size: 2.8vw;
+  }
+
+  .cert-at {
+    font-size: 2.8vw;
+  }
+
+  .cert-small {
+    font-size: 2.1vw;
+  }
+
+  .cert-footer-left {
+    font-size: 2.1vw;
+  }
+
+  .cert-auth {
+    font-size: 2.1vw;
   }
 }

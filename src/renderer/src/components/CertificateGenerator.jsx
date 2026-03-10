@@ -231,7 +231,9 @@ export const generateCertificate = async (data) => {
   y -= lineSpacing;
 
   const prefix = "This is to certify that Mr/Ms ";
-  const suffix = `, ${data.year} Year ${data.courseName} from `;
+  const suffix = data.year
+    ? `, ${data.year} Year ${data.courseName} from `
+    : `, ${data.courseName} from `;
 
   // Calculate widths for centering
   const prefixWidth = timesRomanFont.widthOfTextAtSize(prefix, 20);
@@ -525,17 +527,24 @@ export const generateCertificate = async (data) => {
   });
   y -= lineSpacing;
 
-  // Company name (green, bold) - Static
-  // Company name (green, bold) - Static
-  const staticCompanyName = 'AAHA Solutions';
-  page.drawText(staticCompanyName, {
-    x: centerX(staticCompanyName, cinzelFont, 24),
-    y,
-    size: 24,
-    font: cinzelFont,
-    color: rgb(118 / 255, 166 / 255, 68 / 255),
-  });
+  // Company name rendered in 3 parts so 'e' stays true lowercase.
+  // Cinzel is a small-caps font — it cannot render genuine lowercase letters.
+  // So: "AAHA "=cinzel | "e"=timesRoman | "Com Solutions"=cinzel, centred together.
+  const compNameSize = 24;
+  const compGreen = rgb(118 / 255, 166 / 255, 68 / 255);
+  const part1 = 'AAHA ';
+  const part2 = 'e';
+  const part3 = 'Com Solutions';
+  const w1 = cinzelFont.widthOfTextAtSize(part1, compNameSize);
+  const w2 = timesRomanFont.widthOfTextAtSize(part2, compNameSize);
+  const w3 = cinzelFont.widthOfTextAtSize(part3, compNameSize);
+  const compStartX = (width - (w1 + w2 + w3)) / 2;
+
+  page.drawText(part1, { x: compStartX, y, size: compNameSize, font: cinzelFont, color: compGreen });
+  page.drawText(part2, { x: compStartX + w1, y, size: compNameSize, font: timesRomanFont, color: compGreen });
+  page.drawText(part3, { x: compStartX + w1 + w2, y, size: compNameSize, font: cinzelFont, color: compGreen });
   y -= lineSpacing;
+
 
   // Company description
   const companyDescription = '(a software development company)';
